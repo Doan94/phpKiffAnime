@@ -1,23 +1,17 @@
 -- phpMyAdmin SQL Dump
--- version 4.0.10deb1
--- http://www.phpmyadmin.net
+-- version 4.9.3
+-- https://www.phpmyadmin.net/
 --
--- Client: localhost
--- Généré le: Jeu 22 Septembre 2016 à 12:11
--- Version du serveur: 5.5.50-0ubuntu0.14.04.1
--- Version de PHP: 5.5.9-1ubuntu4.17
+-- Hôte : localhost:8889
+-- Généré le :  Dim 31 mai 2020 à 17:13
+-- Version du serveur :  5.7.26
+-- Version de PHP :  7.4.2
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
 --
--- Base de données: `blog`
+-- Base de données :  `blog`
 --
 CREATE DATABASE IF NOT EXISTS `blog` DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE `blog`;
@@ -28,15 +22,14 @@ USE `blog`;
 -- Structure de la table `Author`
 --
 
-CREATE TABLE IF NOT EXISTS `Author` (
-  `Id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Author` (
+  `Id` tinyint(3) UNSIGNED NOT NULL,
   `FirstName` varchar(50) NOT NULL,
-  `LastName` varchar(50) NOT NULL,
-  PRIMARY KEY (`Id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+  `LastName` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `Author`
+-- Déchargement des données de la table `Author`
 --
 
 INSERT INTO `Author` (`Id`, `FirstName`, `LastName`) VALUES
@@ -48,15 +41,13 @@ INSERT INTO `Author` (`Id`, `FirstName`, `LastName`) VALUES
 -- Structure de la table `Category`
 --
 
-CREATE TABLE IF NOT EXISTS `Category` (
-  `Id` tinyint(3) unsigned NOT NULL AUTO_INCREMENT,
-  `Name` varchar(40) NOT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Name` (`Name`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+CREATE TABLE `Category` (
+  `Id` tinyint(3) UNSIGNED NOT NULL,
+  `Name` varchar(40) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contenu de la table `Category`
+-- Déchargement des données de la table `Category`
 --
 
 INSERT INTO `Category` (`Id`, `Name`) VALUES
@@ -69,16 +60,13 @@ INSERT INTO `Category` (`Id`, `Name`) VALUES
 -- Structure de la table `Comment`
 --
 
-CREATE TABLE IF NOT EXISTS `Comment` (
-  `Id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Comment` (
+  `Id` mediumint(8) UNSIGNED NOT NULL,
   `NickName` varchar(30) DEFAULT NULL,
   `Contents` text NOT NULL,
   `CreationTimestamp` datetime NOT NULL,
-  `Post_Id` smallint(5) unsigned NOT NULL,
-  PRIMARY KEY (`Id`),
-  KEY `CreationTimestamp` (`CreationTimestamp`),
-  KEY `Post_Id` (`Post_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `Post_Id` smallint(5) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -86,22 +74,88 @@ CREATE TABLE IF NOT EXISTS `Comment` (
 -- Structure de la table `Post`
 --
 
-CREATE TABLE IF NOT EXISTS `Post` (
-  `Id` smallint(5) unsigned NOT NULL AUTO_INCREMENT,
+CREATE TABLE `Post` (
+  `Id` smallint(5) UNSIGNED NOT NULL,
   `Title` varchar(100) NOT NULL,
   `Contents` text NOT NULL,
   `CreationTimestamp` datetime NOT NULL,
-  `Author_Id` tinyint(3) unsigned DEFAULT NULL,
-  `Category_Id` tinyint(3) unsigned DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Title` (`Title`),
-  KEY `CreationTimestamp` (`CreationTimestamp`),
-  KEY `Author_Id` (`Author_Id`),
-  KEY `Category_Id` (`Category_Id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  `Author_Id` tinyint(3) UNSIGNED DEFAULT NULL,
+  `Category_Id` tinyint(3) UNSIGNED DEFAULT NULL,
+  `Image` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Contraintes pour les tables exportées
+-- Déchargement des données de la table `Post`
+--
+
+INSERT INTO `Post` (`Id`, `Title`, `Contents`, `CreationTimestamp`, `Author_Id`, `Category_Id`, `Image`) VALUES
+(1, 'ohuihui', 'ihuihu ihuyi', '2020-05-31 19:06:36', 1, 2, 'bleach.jpg');
+
+--
+-- Index pour les tables déchargées
+--
+
+--
+-- Index pour la table `Author`
+--
+ALTER TABLE `Author`
+  ADD PRIMARY KEY (`Id`);
+
+--
+-- Index pour la table `Category`
+--
+ALTER TABLE `Category`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `Name` (`Name`);
+
+--
+-- Index pour la table `Comment`
+--
+ALTER TABLE `Comment`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `CreationTimestamp` (`CreationTimestamp`),
+  ADD KEY `Post_Id` (`Post_Id`);
+
+--
+-- Index pour la table `Post`
+--
+ALTER TABLE `Post`
+  ADD PRIMARY KEY (`Id`),
+  ADD UNIQUE KEY `Title` (`Title`),
+  ADD KEY `CreationTimestamp` (`CreationTimestamp`),
+  ADD KEY `Author_Id` (`Author_Id`),
+  ADD KEY `Category_Id` (`Category_Id`);
+
+--
+-- AUTO_INCREMENT pour les tables déchargées
+--
+
+--
+-- AUTO_INCREMENT pour la table `Author`
+--
+ALTER TABLE `Author`
+  MODIFY `Id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT pour la table `Category`
+--
+ALTER TABLE `Category`
+  MODIFY `Id` tinyint(3) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT pour la table `Comment`
+--
+ALTER TABLE `Comment`
+  MODIFY `Id` mediumint(8) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT pour la table `Post`
+--
+ALTER TABLE `Post`
+  MODIFY `Id` smallint(5) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- Contraintes pour les tables déchargées
 --
 
 --
@@ -116,7 +170,3 @@ ALTER TABLE `Comment`
 ALTER TABLE `Post`
   ADD CONSTRAINT `Post_ibfk_1` FOREIGN KEY (`Author_Id`) REFERENCES `Author` (`Id`) ON DELETE SET NULL ON UPDATE CASCADE,
   ADD CONSTRAINT `Post_ibfk_2` FOREIGN KEY (`Category_Id`) REFERENCES `Category` (`Id`) ON DELETE SET NULL ON UPDATE CASCADE;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
